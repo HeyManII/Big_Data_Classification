@@ -43,7 +43,9 @@ class Neural_Network_Classification(nn.Module):
             nn.ReLU(),
             nn.Linear(54, 54),
             nn.ReLU(),
-            nn.Linear(54, 18),
+            nn.Linear(54, 36),
+            nn.ReLU(),
+            nn.Linear(36, 18),
             nn.ReLU(),
             nn.Linear(18, 5),
         )
@@ -170,11 +172,14 @@ if __name__ == "__main__":
     model.eval()
     y_pred = model(X_validate)
     y_pred = torch.argmax(y_pred, 1)
+    y_pred = y_pred + 1
     # convert y_validate to numpy array
     Y_validate = ohe.inverse_transform(Y_validate)
     # calculate F1 score
-    f1 = f1_score(Y_validate, y_pred, average="weighted")
-    print(f"F1 score: {f1:.4f}")
+    f1_macro = f1_score(Y_validate, y_pred, average="macro")
+    f1_micro = f1_score(Y_validate, y_pred, average="micro")
+    print(f"Macro F1 score: {f1_macro:.4f}")
+    print(f"Micro F1 score: {f1_micro:.4f}")
 
     # Plot the loss and accuracy
     plt.plot(train_loss_hist, label="train")
