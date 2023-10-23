@@ -3,6 +3,7 @@ import sklearn
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.metrics import f1_score
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -104,7 +105,7 @@ if __name__ == "__main__":
     Y_validate = torch.tensor(Y_validate, dtype=torch.float)
 
     # training parameters
-    n_epochs = 200
+    n_epochs = 100
     batch_size = 20
     batches_per_epoch = len(X_train) // batch_size
 
@@ -164,6 +165,16 @@ if __name__ == "__main__":
 
     # Restore best model
     model.load_state_dict(best_weights)
+
+    # set model in evaluation mode and run through the validation set
+    model.eval()
+    y_pred = model(X_validate)
+    y_pred = torch.argmax(y_pred, 1)
+    # convert y_validate to numpy array
+    Y_validate = ohe.inverse_transform(Y_validate)
+    # calculate F1 score
+    f1 = f1_score(Y_validate, y_pred, average="weighted")
+    print(f"F1 score: {f1:.4f}")
 
     # Plot the loss and accuracy
     plt.plot(train_loss_hist, label="train")
