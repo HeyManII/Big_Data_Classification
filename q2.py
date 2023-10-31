@@ -1,14 +1,8 @@
 import numpy as np
 import sklearn
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import f1_score
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import tqdm
-import copy
+import statistics
 
 
 def cleaning_dirty_data(original_data):
@@ -29,6 +23,14 @@ def normalize_data(original_data):
     return original_data
 
 
+def calculate_distance(x, y):
+    # calculate the distance between two records
+    return np.sqrt(np.sum((x - y) ** 2))
+
+
+# set the number of nearest neighbors
+k = 10
+
 if __name__ == "__main__":
     # reading the training data
     training_data = pd.read_csv("data-release/data2/training.csv")
@@ -44,9 +46,32 @@ if __name__ == "__main__":
     # normalizing 18 columns excluding the id and the class label
     normalized_validation_data = normalize_data(cleaned_validation_data)
 
+    # initial the matrix to record the distance between the validation data i and each training data j
+    distance = np.zeros(
+        [normalized_validation_data.shape[0], normalized_training_data.shape[0]]
+    )
+    # initial the array to record the prediction of the validation data
+    predict = np.zeros([normalized_validation_data.shape[0]], dtype=int)
+    # Loop through each validation to calculate the distance between the validation data i and each training data j
+    for i in range(normalized_validation_data.shape[0] - 29999):
+        for j in range(normalized_training_data.shape[0]):
+            distance[i, j] = calculate_distance(
+                normalized_validation_data.iloc[i, 1:19],
+                normalized_training_data.iloc[j, 1:19],
+            )
+            print(i, j)
+        # find the k nearest neighbors and its corresponding index
+        sorted_indices = np.argsort(distance[i, :])
+        # initial the array to store the class label of the k nearest neighbors
+        voting = []
+        for x in sorted_indices[:k]:
+            voting.append(normalized_training_data.iloc[x, 19])
+        # find the most frequent class label in k nearest neighbors
+        predict[i] = statistics.mode(voting)
+
     # calculate the macro F1 score and micro F1 score
     Y_validate = normalized_validation_data.iloc[:, 19]
-    f1_macro = f1_score(Y_validate, y_pred, average="macro")
-    f1_micro = f1_score(Y_validate, y_pred, average="micro")
+    f1_macro = f1_score(Y_validate, predict, average="macro")
+    f1_micro = f1_score(Y_validate, predict, average="micro")
     print(f"Macro F1 score: {f1_macro:.4f}")
     print(f"Micro F1 score: {f1_micro:.4f}")
