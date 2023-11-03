@@ -1,5 +1,4 @@
 import numpy as np
-import sklearn
 import pandas as pd
 from sklearn.metrics import f1_score
 import statistics
@@ -8,8 +7,8 @@ import statistics
 def cleaning_dirty_data(original_data):
     # remove rows with empty cells
     cleaned_data = original_data.dropna(axis=0, inplace=False)
-    # replace "?" record with 0
-    cleaned_data = cleaned_data.replace("?", int(0))
+    # replace "?" record with nan value
+    cleaned_data = cleaned_data.replace("?", np.nan)
     # convert the data type to float
     cleaned_data.iloc[:, 1:19] = cleaned_data.iloc[:, 1:19].astype(float)
     return cleaned_data
@@ -29,7 +28,7 @@ def calculate_distance(x, y):
 
 
 # set the number of nearest neighbors
-k = 10
+n = 10
 
 if __name__ == "__main__":
     # reading the training data
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     # initial the array to record the prediction of the validation data
     predict = np.zeros([normalized_validation_data.shape[0]], dtype=int)
     # Loop through each validation to calculate the distance between the validation data i and each training data j
-    for i in range(normalized_validation_data.shape[0] - 29999):
+    for i in range(normalized_validation_data.shape[0]):
         for j in range(normalized_training_data.shape[0]):
             distance[i, j] = calculate_distance(
                 normalized_validation_data.iloc[i, 1:19],
@@ -64,7 +63,7 @@ if __name__ == "__main__":
         sorted_indices = np.argsort(distance[i, :])
         # initial the array to store the class label of the k nearest neighbors
         voting = []
-        for x in sorted_indices[:k]:
+        for x in sorted_indices[:n]:
             voting.append(normalized_training_data.iloc[x, 19])
         # find the most frequent class label in k nearest neighbors
         predict[i] = statistics.mode(voting)
