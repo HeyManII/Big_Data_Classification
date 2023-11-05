@@ -48,16 +48,16 @@ if __name__ == "__main__":
     palestine_t1_tfidf, palestine_t2_tfidf = tf_idf_calculation(palestine)
 
     # # Train SVM model for obama
-    # obama_train = obama["S1"] + obama["S2"]
-    # # print(obama_t1_tfidf.shape)
-    # # print(obama_t2_tfidf.shape)
-    # # print(obama["S1"].shape)
-    # # print(obama["S2"].shape)
-    # # print(obama_train.shape)
-    # X_train, X_test, y_train, y_test = train_test_split(
-    #     obama_train, obama["class label"], test_size=0.2, random_state=42
-    # )
-    # svm = SVC(kernel="linear")
-    # svm.fit(X_train, y_train)
-    # y_pred = svm.predict(X_test)
-    # print("Accuracy:", accuracy_score(y_test, y_pred))
+    obama_train = pd.concat([obama["S1"], obama["S2"]], axis=1)
+    # print(obama_t1_tfidf.shape)
+    # print(obama_t2_tfidf.shape)
+    # print(obama["S1"].shape)
+    # print(obama["S2"].shape)
+    # print(obama_train.shape)
+    X_train, X_test, y_train, y_test = train_test_split(
+        obama_train, obama["class label"], test_size=0.2, random_state=42
+    )
+    svm = SVC(kernel="linear")
+    svm.fit(X_train, y_train)
+    y_pred = svm.predict(X_test)
+    print("Accuracy:", accuracy_score(y_test, y_pred))
