@@ -9,6 +9,7 @@ import numpy as np
 import nltk
 from nltk.corpus import stopwords
 import string
+import re
 
 '''
 def process_text(text):
@@ -24,7 +25,8 @@ def process_text(text):
 
 # Testing
 if __name__ == "__main__":
-    data = pd.read_csv('./data1/training.csv')
+    data = pd.read_csv('./data-release/data1/training.csv')
+    pd.options.mode.chained_assignment = None  
 
     train_data = data.dropna() # Drop rows with missing values 
     train_data.drop_duplicates(inplace=True) #remove the duplicates rows of the dataset
