@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler, Normalizer
+from sklearn.preprocessing import OneHotEncoder, Normalizer
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, f1_score
@@ -10,18 +10,29 @@ import nltk
 from nltk.corpus import stopwords
 import string
 import re
+from nltk.tokenize import word_tokenize
 
-'''
-def process_text(text):
-    nltk.download('stopwords')
-    #1 clear the punctuation
-    nopunc = [char for char in text if char not in string.punctuation]
-    nopunc = ''.join(nopunc)
-    #2 clear the stopwords
-    clean_words = [word for word in nopunc if word.lower() not in stopwords.words('english')]
-    #3 return value
-    return clean_words
-'''
+
+def preprocess_text_csv(df, text_column):
+    nltk.download('punkt')
+    stop_words = set(stopwords.words('english'))
+    pd.options.mode.chained_assignment = None  
+
+    if text_column == "S":
+        df[text_column].fillna("isnull",inplace=True) #replace the empty value with string "isnull"
+    else:
+        # Remove punctuation
+        df[text_column] = df[text_column].apply(lambda text: text.translate(str.maketrans('', '', string.punctuation)))
+
+        # Convert text to lowercase
+        df[text_column] = df[text_column].str.lower()
+
+        # Remove stopwords
+        df[text_column] = df[text_column].apply(lambda text: ' '.join(word for word in word_tokenize(text) if word not in stop_words))
+
+    print("df",df[text_column])
+    return df[text_column]
+
 
 # Testing
 if __name__ == "__main__":
@@ -31,13 +42,15 @@ if __name__ == "__main__":
     train_data = data.dropna() # Drop rows with missing values 
     train_data.drop_duplicates(inplace=True) #remove the duplicates rows of the dataset
 
-    '''
-    print("before",train_data['T1'].head())
-    pd.options.mode.chained_assignment = None  
-    train_data['T1'] = train_data['T1'].apply(process_text)
-    train_data['T2'] = train_data['T2'].apply(process_text)
-    print("after",train_data['T1'].head())
-    '''
+    text_column = "T1"
+    train_data["T1"] = preprocess_text_csv(train_data, text_column)
+
+    text_column = "T2"
+    train_data["T2"] = preprocess_text_csv(train_data, text_column)
+
+    text_column = "S"
+    train_data["S"] = preprocess_text_csv(train_data, text_column)
+
 
     X = train_data[['T1', 'T2', 'S', 'TO','S1','S2']]  
     y = train_data['class label'] 
@@ -45,13 +58,13 @@ if __name__ == "__main__":
     X_train, X_validation, y_train, y_validation = train_test_split(X, y, test_size=0.2, random_state=42)
 
     # transform the T1 and T2 data into Tfidf format with remove the stopword, punctuation
-    vectorizer = TfidfVectorizer(stop_words='english', token_pattern=r'\b\w+\b')
-    X_train_tfidf_t1 = vectorizer.fit_transform(X_train['T1'].apply(lambda x: re.sub(r'[^\w\s]', '', x)))  # Transform the T1 text column
-    X_test_tfidf_t1 = vectorizer.transform(X_validation['T1'].apply(lambda x: re.sub(r'[^\w\s]', '', x)))
+    vectorizer = TfidfVectorizer()
+    X_train_tfidf_t1 = vectorizer.fit_transform(X_train['T1'])  # Transform the T1 text column
+    X_test_tfidf_t1 = vectorizer.transform(X_validation['T1'])
 
 
-    X_train_tfidf_t2 = vectorizer.fit_transform(X_train['T2'].apply(lambda x: re.sub(r'[^\w\s]', '', x)))  # Transform the T2 text column
-    X_test_tfidf_t2 = vectorizer.transform(X_validation['T2'].apply(lambda x: re.sub(r'[^\w\s]', '', x)))
+    X_train_tfidf_t2 = vectorizer.fit_transform(X_train['T2'])  # Transform the T2 text column
+    X_test_tfidf_t2 = vectorizer.transform(X_validation['T2'])
 
     # transform the category columns into numerical data using one hot encoder
     cat_features = ['S','TO']
