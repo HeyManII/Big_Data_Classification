@@ -47,9 +47,10 @@ if __name__ == "__main__":
     # transform the T1 and T2 data into Tfidf format with remove the stopword, punctuation
     vectorizer = TfidfVectorizer(stop_words='english', token_pattern=r'\b\w+\b')
     X_train_tfidf_t1 = vectorizer.fit_transform(X_train['T1'].apply(lambda x: re.sub(r'[^\w\s]', '', x)))  # Transform the T1 text column
-    X_train_tfidf_t2 = vectorizer.transform(X_train['T2'].apply(lambda x: re.sub(r'[^\w\s]', '', x)))  # Transform the T2 text column
-
     X_test_tfidf_t1 = vectorizer.transform(X_validation['T1'].apply(lambda x: re.sub(r'[^\w\s]', '', x)))
+
+
+    X_train_tfidf_t2 = vectorizer.fit_transform(X_train['T2'].apply(lambda x: re.sub(r'[^\w\s]', '', x)))  # Transform the T2 text column
     X_test_tfidf_t2 = vectorizer.transform(X_validation['T2'].apply(lambda x: re.sub(r'[^\w\s]', '', x)))
 
     # transform the category columns into numerical data using one hot encoder
