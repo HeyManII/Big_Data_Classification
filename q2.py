@@ -40,38 +40,33 @@ class KNN:
         index = []
 
         # parameter to show the progress of the loop
-        progress_per_loop = m
-        distances = []
-        # Calculating Euclidean distances
-        for i in range(n):
-            distance = []
-            with tqdm.trange(progress_per_loop, unit="%", mininterval=0) as bar:
-                bar.set_description(f"Testing Record {i}: ")
-                for j in bar:
+        progress_per_loop = n
+        with tqdm.trange(progress_per_loop, unit="%", mininterval=0) as bar:
+            bar.set_description(f"Training Progress: ")
+            # Calculating Euclidean distances
+            for i in bar:
+                distance = []
+                for j in range(m):
                     d = np.sqrt(
                         np.sum(np.square(X_test[i, 1:19] - self.X_train[j, 1:19]))
                     )
                     distance.append((d, y_train[j]))
-            # sorting distances in ascending order
-            distance = sorted(distance)
-            distances.append(distance)
-
-        # Getting k nearest neighbors
-        print(f"Getting {self.k} nearest neighbors")
-        for i in range(n):
-            # Getting k nearest neighbors
-            neighbors = []
-            distance = distances[i]
-            for item in range(self.k):
-                neighbors.append(distance[item][1])
-            index.append(int(X_test[i][0]))
-            y_pred.append(stats.mode(neighbors)[0])
+                # sorting distances in ascending order
+                distance = sorted(distance)
+                # Getting k nearest neighbors
+                # print(f"Getting {self.k} nearest neighbors")
+                # Getting k nearest neighbors
+                neighbors = []
+                for item in range(self.k):
+                    neighbors.append(distance[item][1])
+                index.append(int(X_test[i][0]))
+                y_pred.append(stats.mode(neighbors)[0])
         return index, y_pred
 
 
 # set the number of nearest neighbors testing for validation data
-N = [3]
-testing_no = 5
+N = [3, 4, 5]
+testing_no = 100
 
 if __name__ == "__main__":
     # reading the training data
@@ -100,7 +95,6 @@ if __name__ == "__main__":
         model = KNN(n)
         model.fit(X_train, y_train)
         index, predict = model.predict(X_valid)
-        print(index, predict)
         f1_macro.append(f1_score(y_valid, predict, average="macro"))
         f1_micro.append(f1_score(y_valid, predict, average="micro"))
 
@@ -134,7 +128,6 @@ if __name__ == "__main__":
     # set the class label colume to object type so that the prediction will be savesd as integer
     testing_data = testing_data.astype({"class label": "object"})
     for i in range(X_test.shape[0]):
-        print(index[i], predict[i])
         if index[i] == testing_data.iloc[i, 0]:
             testing_data.iloc[i, 19] = predict[i]
     testing_data.to_csv("data-release/data2/test_predict.csv", index=False)
