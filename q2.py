@@ -81,8 +81,6 @@ class KNN:
         return index, y_pred, distances
 
 
-testing_no = 50
-
 if __name__ == "__main__":
     # reading the training data
     training_data = pd.read_csv("data-release/data2/training.csv")
@@ -101,8 +99,8 @@ if __name__ == "__main__":
     # cleaning the training_data
     cleaned_validation_data = data_cleaning(training_data)
     # split to training data and training label
-    X_valid = np.array(cleaned_validation_data.head.iloc[:, 0:19])
-    y_valid = np.array(cleaned_validation_data.head.iloc[:, 19])
+    X_valid = np.array(cleaned_validation_data.iloc[:, 0:19])
+    y_valid = np.array(cleaned_validation_data.iloc[:, 19])
 
     # initialize the f1 score list
     f1_macro = []
@@ -116,8 +114,6 @@ if __name__ == "__main__":
     N = N.astype(int)
     # loop through the number of nearest neighbors to get the f1 score of the training data and validation data
     for n in N:
-        # start the memory tracing
-        tracemalloc.start(1)
         # if n != 2, the distances are calculated in the first loop, then the distances are not calculated
         if n != 2:
             calculated = True
@@ -126,8 +122,11 @@ if __name__ == "__main__":
         # fit the data to the model
         model.fit(X_train, y_train)
         print(f"Getting {n} nearest neighbors...")
+        # start the memory tracing
+        tracemalloc.start(1)
         # get the prediction of the validation data
         index, predict, distances = model.predict(X_valid, calculated, distances)
+        # get the memory usage
         snap = tracemalloc.take_snapshot()
         top_stats = snap.statistics("traceback")
         print(top_stats[0])
