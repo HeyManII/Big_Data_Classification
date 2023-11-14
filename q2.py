@@ -5,7 +5,12 @@ from scipy import stats
 import matplotlib.pyplot as plt
 import os
 import tqdm
-import tracemalloc
+import psutil
+
+
+# Get the memory usage
+def get_mem_usage():
+    return psutil.virtual_memory().used / 1024**3
 
 
 # data precessing
@@ -36,6 +41,8 @@ class KNN:
 
     # predict the class label of the testing data
     def predict(self, X_test, calculated, distances):
+        print(f"Memory usage before predicting label: {mem4} GB")
+
         m = self.X_train.shape[0]
         n = X_test.shape[0]
         y_pred = []
@@ -78,10 +85,19 @@ class KNN:
                 index.append(int(X_test[i][0]))
                 # save the prediction which is the mode of the k nearest neighbors
                 y_pred.append(stats.mode(neighbors)[0])
+
+        mem5 = round(get_mem_usage(), 3)
+        print(f"Memory usage after predicting label: {mem5} GB")
+        print(f"Memory usage on predicting label is {round(mem5-mem4, 3)} GB")
+        print()
         return index, y_pred, distances
 
 
 if __name__ == "__main__":
+    # get the memory usage at the beginning
+    mem0 = round(get_mem_usage(), 3)
+    print(f"Memory usage at the beginning: {mem0} GB")
+
     # reading the training data
     training_data = pd.read_csv("data-release/data2/training.csv")
     # remove rows with empty cells
@@ -102,18 +118,25 @@ if __name__ == "__main__":
     X_valid = np.array(cleaned_validation_data.iloc[:, 0:19])
     y_valid = np.array(cleaned_validation_data.iloc[:, 19])
 
+    # get the memory usage after reading the data
+    mem1 = round(get_mem_usage(), 3)
+    print(f"Memory usage after data processing: {mem1} GB")
+    print(f"Memory usage on data processing is {round(mem1-mem0, 3)} GB")
+
     # initialize the f1 score list
     f1_macro = []
     f1_micro = []
     calculated = False
     distances = []
-    # Set the number of nearest neighbors from 2 to 1% of the training data which is 300
+    # Set the number of nearest neighbors from 2 to 0.1% of the training data which is 300
     N = np.linspace(
-        2, int(X_train.shape[0] * 0.001 + 1), num=(int(X_train.shape[0] * 0.01))
+        2, int(X_train.shape[0] * 0.001), num=(int(X_train.shape[0] * 0.001 - 1))
     )
     N = N.astype(int)
     # loop through the number of nearest neighbors to get the f1 score of the training data and validation data
     for n in N:
+        mem2 = round(get_mem_usage(), 3)
+        print(f"Memory usage before fitting model: {mem2} GB")
         # if n != 2, the distances are calculated in the first loop, then the distances are not calculated
         if n != 2:
             calculated = True
@@ -121,16 +144,13 @@ if __name__ == "__main__":
         model = KNN(n)
         # fit the data to the model
         model.fit(X_train, y_train)
+        mem3 = round(get_mem_usage(), 3)
+        print(f"Memory usage after fitting model: {mem3} GB")
+        print(f"Memory usage on fitting model is {round(mem3-mem2, 3)} GB")
+        mem4 = round(get_mem_usage(), 3)
         print(f"Getting {n} nearest neighbors...")
-        # start the memory tracing
-        tracemalloc.start(1)
         # get the prediction of the validation data
         index, predict, distances = model.predict(X_valid, calculated, distances)
-        # get the memory usage
-        snap = tracemalloc.take_snapshot()
-        top_stats = snap.statistics("traceback")
-        print(top_stats[0])
-        tracemalloc.stop()
         # calculate the f1 score and save it to the list
         f1_macro.append(f1_score(y_valid, predict, average="macro"))
         f1_micro.append(f1_score(y_valid, predict, average="micro"))
@@ -158,26 +178,29 @@ if __name__ == "__main__":
     else:
         optimal_k = f1_micro[f1_micro.index(max(f1_micro))]
 
+    mem6 = round(get_mem_usage(), 3)
+    print(f"Memory usage before Test data precessing: {mem6} GB")
     # reading the testing data
     testing_data = pd.read_csv("data-release/data2/test.csv")
     # replace "?" record with nan value
     cleaned_testing_data = data_cleaning(testing_data)
     # assign X_test
     X_test = np.array(cleaned_testing_data.iloc[:, 0:19])
+    mem7 = round(get_mem_usage(), 3)
+    print(f"Memory usage after Test data precessing: {mem6} GB")
+    print(f"Memory usage on predicting label is {round(mem7-mem6, 3)} GB")
 
+    mem8 = round(get_mem_usage(), 3)
+    print(f"Memory usage before fitting Test data: {mem8} GB")
     # predict the class label of the testing data with the optimal k
     model = KNN(optimal_k)
     # fit the testing data to the model
     model.fit(X_train, y_train)
-    print(f"Getting {optimal_k} nearest neighbors...")
-    # start the memory tracing
-    tracemalloc.start(1)
+    mem9 = round(get_mem_usage(), 3)
+    print(f"Memory usage after Test data precessing: {mem9} GB")
+    print(f"Memory usage on predicting label is {round(mem9-mem8, 3)} GB")
     # get the prediction of testing data
     index, predict, distances = model.predict(X_test, calculated=False, distances=[])
-    snap = tracemalloc.take_snapshot()
-    top_stats = snap.statistics("traceback")
-    print(top_stats[0])
-    tracemalloc.stop()
     # set the class label colume to object type so that the prediction will be savesd as integer
     testing_data = testing_data.astype({"class label": "object"})
     # assign the prediction to the testing data file and check again whether the prediction matches the index
