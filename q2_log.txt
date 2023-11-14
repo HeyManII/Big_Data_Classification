@@ -1,0 +1,287 @@
+Memory usage at the beginning: 15.2 GB
+Memory usage after data processing: 15.2 GB
+Memory usage on data processing is 0.0 GB
+Memory usage before fitting model: 15.2 GB
+Memory usage after fitting model: 15.2 GB
+Memory usage on fitting model is 0.0 GB
+Getting 2 nearest neighbors...
+Memory usage before predicting label: 15.2 GB
+Training Progress: : 100%|█████████████████████████████████████████████████████████████████████████| 30000/30000 [44:31<00:00, 11.23row(s)/s]
+Memory usage after predicting label: 7.942 GB
+Memory usage on predicting label is -7.258 GB
+
+Memory usage before fitting model: 7.931 GB
+Memory usage after fitting model: 7.931 GB
+Memory usage on fitting model is 0.0 GB
+Getting 3 nearest neighbors...
+Memory usage before predicting label: 7.931 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:22<00:00, 1333.96row(s)/s]
+Memory usage after predicting label: 7.969 GB
+Memory usage on predicting label is 0.038 GB
+
+Memory usage before fitting model: 7.954 GB
+Memory usage after fitting model: 7.954 GB
+Memory usage on fitting model is 0.0 GB
+Getting 4 nearest neighbors...
+Memory usage before predicting label: 7.954 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:10<00:00, 2729.23row(s)/s]
+Memory usage after predicting label: 7.935 GB
+Memory usage on predicting label is -0.019 GB
+
+Memory usage before fitting model: 7.945 GB
+Memory usage after fitting model: 7.945 GB
+Memory usage on fitting model is 0.0 GB
+Getting 5 nearest neighbors...
+Memory usage before predicting label: 7.945 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:10<00:00, 2743.83row(s)/s]
+Memory usage after predicting label: 7.926 GB
+Memory usage on predicting label is -0.019 GB
+
+Memory usage before fitting model: 7.904 GB
+Memory usage after fitting model: 7.904 GB
+Memory usage on fitting model is 0.0 GB
+Getting 6 nearest neighbors...
+Memory usage before predicting label: 7.904 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:11<00:00, 2714.72row(s)/s]
+Memory usage after predicting label: 7.907 GB
+Memory usage on predicting label is 0.003 GB
+
+Memory usage before fitting model: 7.918 GB
+Memory usage after fitting model: 7.918 GB
+Memory usage on fitting model is 0.0 GB
+Getting 7 nearest neighbors...
+Memory usage before predicting label: 7.918 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:11<00:00, 2566.04row(s)/s]
+Memory usage after predicting label: 7.944 GB
+Memory usage on predicting label is 0.026 GB
+
+Memory usage before fitting model: 7.961 GB
+Memory usage after fitting model: 7.961 GB
+Memory usage on fitting model is 0.0 GB
+Getting 8 nearest neighbors...
+Memory usage before predicting label: 7.961 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:12<00:00, 2376.57row(s)/s]
+Memory usage after predicting label: 7.953 GB
+Memory usage on predicting label is -0.008 GB
+
+Memory usage before fitting model: 7.943 GB
+Memory usage after fitting model: 7.943 GB
+Memory usage on fitting model is 0.0 GB
+Getting 9 nearest neighbors...
+Memory usage before predicting label: 7.943 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:14<00:00, 2140.51row(s)/s]
+Memory usage after predicting label: 7.955 GB
+Memory usage on predicting label is 0.012 GB
+
+Memory usage before fitting model: 7.991 GB
+Memory usage after fitting model: 7.991 GB
+Memory usage on fitting model is 0.0 GB
+Getting 10 nearest neighbors...
+Memory usage before predicting label: 7.991 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:14<00:00, 2102.94row(s)/s]
+Memory usage after predicting label: 7.95 GB
+Memory usage on predicting label is -0.041 GB
+
+Memory usage before fitting model: 7.985 GB
+Memory usage after fitting model: 7.985 GB
+Memory usage on fitting model is 0.0 GB
+Getting 11 nearest neighbors...
+Memory usage before predicting label: 7.985 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:14<00:00, 2066.88row(s)/s]
+Memory usage after predicting label: 7.963 GB
+Memory usage on predicting label is -0.022 GB
+
+Memory usage before fitting model: 8.074 GB
+Memory usage after fitting model: 8.074 GB
+Memory usage on fitting model is 0.0 GB
+Getting 12 nearest neighbors...
+Memory usage before predicting label: 8.074 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:14<00:00, 2015.81row(s)/s]
+Memory usage after predicting label: 7.97 GB
+Memory usage on predicting label is -0.104 GB
+
+Memory usage before fitting model: 7.996 GB
+Memory usage after fitting model: 7.996 GB
+Memory usage on fitting model is 0.0 GB
+Getting 13 nearest neighbors...
+Memory usage before predicting label: 7.996 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:15<00:00, 1976.97row(s)/s]
+Memory usage after predicting label: 7.97 GB
+Memory usage on predicting label is -0.026 GB
+
+Memory usage before fitting model: 8.08 GB
+Memory usage after fitting model: 8.08 GB
+Memory usage on fitting model is 0.0 GB
+Getting 14 nearest neighbors...
+Memory usage before predicting label: 8.08 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:15<00:00, 1881.22row(s)/s]
+Memory usage after predicting label: 7.949 GB
+Memory usage on predicting label is -0.131 GB
+
+Memory usage before fitting model: 7.971 GB
+Memory usage after fitting model: 7.971 GB
+Memory usage on fitting model is 0.0 GB
+Getting 15 nearest neighbors...
+Memory usage before predicting label: 7.971 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:15<00:00, 1936.02row(s)/s]
+Memory usage after predicting label: 7.955 GB
+Memory usage on predicting label is -0.016 GB
+
+Memory usage before fitting model: 8.046 GB
+Memory usage after fitting model: 8.046 GB
+Memory usage on fitting model is 0.0 GB
+Getting 16 nearest neighbors...
+Memory usage before predicting label: 8.046 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:16<00:00, 1862.60row(s)/s]
+Memory usage after predicting label: 7.977 GB
+Memory usage on predicting label is -0.069 GB
+
+Memory usage before fitting model: 7.981 GB
+Memory usage after fitting model: 7.981 GB
+Memory usage on fitting model is 0.0 GB
+Getting 17 nearest neighbors...
+Memory usage before predicting label: 7.981 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:16<00:00, 1834.95row(s)/s]
+Memory usage after predicting label: 7.945 GB
+Memory usage on predicting label is -0.036 GB
+
+Memory usage before fitting model: 8.048 GB
+Memory usage after fitting model: 8.048 GB
+Memory usage on fitting model is 0.0 GB
+Getting 18 nearest neighbors...
+Memory usage before predicting label: 8.048 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:16<00:00, 1796.45row(s)/s]
+Memory usage after predicting label: 7.995 GB
+Memory usage on predicting label is -0.053 GB
+
+Memory usage before fitting model: 7.965 GB
+Memory usage after fitting model: 7.965 GB
+Memory usage on fitting model is 0.0 GB
+Getting 19 nearest neighbors...
+Memory usage before predicting label: 7.965 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:17<00:00, 1756.38row(s)/s]
+Memory usage after predicting label: 7.971 GB
+Memory usage on predicting label is 0.006 GB
+
+Memory usage before fitting model: 8.03 GB
+Memory usage after fitting model: 8.03 GB
+Memory usage on fitting model is 0.0 GB
+Getting 20 nearest neighbors...
+Memory usage before predicting label: 8.03 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:17<00:00, 1717.59row(s)/s]
+Memory usage after predicting label: 7.974 GB
+Memory usage on predicting label is -0.056 GB
+
+Memory usage before fitting model: 7.956 GB
+Memory usage after fitting model: 7.956 GB
+Memory usage on fitting model is 0.0 GB
+Getting 21 nearest neighbors...
+Memory usage before predicting label: 7.956 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:17<00:00, 1696.72row(s)/s]
+Memory usage after predicting label: 7.962 GB
+Memory usage on predicting label is 0.006 GB
+
+Memory usage before fitting model: 8.028 GB
+Memory usage after fitting model: 8.028 GB
+Memory usage on fitting model is 0.0 GB
+Getting 22 nearest neighbors...
+Memory usage before predicting label: 8.028 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:18<00:00, 1661.36row(s)/s]
+Memory usage after predicting label: 7.969 GB
+Memory usage on predicting label is -0.059 GB
+
+Memory usage before fitting model: 7.944 GB
+Memory usage after fitting model: 7.944 GB
+Memory usage on fitting model is 0.0 GB
+Getting 23 nearest neighbors...
+Memory usage before predicting label: 7.944 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:18<00:00, 1651.47row(s)/s]
+Memory usage after predicting label: 7.974 GB
+Memory usage on predicting label is 0.03 GB
+
+Memory usage before fitting model: 8.025 GB
+Memory usage after fitting model: 8.025 GB
+Memory usage on fitting model is 0.0 GB
+Getting 24 nearest neighbors...
+Memory usage before predicting label: 8.025 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:18<00:00, 1612.37row(s)/s]
+Memory usage after predicting label: 7.985 GB
+Memory usage on predicting label is -0.04 GB
+
+Memory usage before fitting model: 7.951 GB
+Memory usage after fitting model: 7.951 GB
+Memory usage on fitting model is 0.0 GB
+Getting 25 nearest neighbors...
+Memory usage before predicting label: 7.951 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:18<00:00, 1602.19row(s)/s]
+Memory usage after predicting label: 7.982 GB
+Memory usage on predicting label is 0.031 GB
+
+Memory usage before fitting model: 8.055 GB
+Memory usage after fitting model: 8.055 GB
+Memory usage on fitting model is 0.0 GB
+Getting 26 nearest neighbors...
+Memory usage before predicting label: 8.055 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:19<00:00, 1567.87row(s)/s]
+Memory usage after predicting label: 7.955 GB
+Memory usage on predicting label is -0.1 GB
+
+Memory usage before fitting model: 7.969 GB
+Memory usage after fitting model: 7.969 GB
+Memory usage on fitting model is 0.0 GB
+Getting 27 nearest neighbors...
+Memory usage before predicting label: 7.969 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:19<00:00, 1552.67row(s)/s]
+Memory usage after predicting label: 8.008 GB
+Memory usage on predicting label is 0.039 GB
+
+Memory usage before fitting model: 8.039 GB
+Memory usage after fitting model: 8.039 GB
+Memory usage on fitting model is 0.0 GB
+Getting 28 nearest neighbors...
+Memory usage before predicting label: 8.039 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:19<00:00, 1519.03row(s)/s]
+Memory usage after predicting label: 7.978 GB
+Memory usage on predicting label is -0.061 GB
+
+Memory usage before fitting model: 7.95 GB
+Memory usage after fitting model: 7.95 GB
+Memory usage on fitting model is 0.0 GB
+Getting 29 nearest neighbors...
+Memory usage before predicting label: 7.95 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:19<00:00, 1522.31row(s)/s]
+Memory usage after predicting label: 7.968 GB
+Memory usage on predicting label is 0.018 GB
+
+Memory usage before fitting model: 8.016 GB
+Memory usage after fitting model: 8.016 GB
+Memory usage on fitting model is 0.0 GB
+Getting 30 nearest neighbors...
+Memory usage before predicting label: 8.016 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 30000/30000 [00:20<00:00, 1498.35row(s)/s]
+Memory usage after predicting label: 7.983 GB
+Memory usage on predicting label is -0.033 GB
+
+Maximum Macro F1 score is 0.9399498477871546 when k = 3
+Maximum Micro F1 score is 0.9410666666666667 when k = 3
+Memory usage before Test data precessing: 8.147 GB
+Memory usage after Test data precessing: 8.147 GB
+Memory usage on predicting label is 0.073 GB
+Memory usage before fitting Test data: 8.22 GB
+Memory usage after Test data precessing: 8.22 GB
+Memory usage on predicting label is 0.0 GB
+Memory usage before predicting label: 8.016 GB
+Training Progress: : 100%|███████████████████████████████████████████████████████████████████████| 10000/10000 [27:37<00:00,  6.03row(s)/s]
+Memory usage after predicting label: 8.007 GB
+Memory usage on predicting label is -0.009 GB
+
+Memory usage before Test data precessing: 8.596 GB
+Memory usage after Test data precessing: 8.596 GB
+Memory usage on predicting label is 0.031 GB
+Memory usage before fitting Test data: 8.627 GB
+Memory usage after Test data precessing: 8.627 GB
+Memory usage on predicting label is 0.0 GB
+Memory usage before predicting label: 8.627 GB
+Training Progress: : 100%|████████████████████████████████████████████████████████████████████████████████████████████████| 10000/10000 [13:51<00:00, 12.03row(s)/s]
+Memory usage after predicting label: 9.923 GB
+Memory usage on predicting label is 1.296 GB
