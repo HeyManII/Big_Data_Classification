@@ -109,7 +109,7 @@ if __name__ == "__main__":
     distances = []
     # Set the number of nearest neighbors from 2 to 1% of the training data which is 300
     N = np.linspace(
-        2, int(X_train.shape[0] * 0.01 + 1), num=(int(X_train.shape[0] * 0.01))
+        2, int(X_train.shape[0] * 0.001 + 1), num=(int(X_train.shape[0] * 0.01))
     )
     N = N.astype(int)
     # loop through the number of nearest neighbors to get the f1 score of the training data and validation data
@@ -154,9 +154,9 @@ if __name__ == "__main__":
 
     # find the optimal number of nearest neighbors
     if max(f1_macro) >= max(f1_micro):
-        optimal_k = f1_macro.index(max(f1_macro))
+        optimal_k = f1_macro[f1_macro.index(max(f1_macro))]
     else:
-        optimal_k = f1_micro.index(max(f1_micro))
+        optimal_k = f1_micro[f1_micro.index(max(f1_micro))]
 
     # reading the testing data
     testing_data = pd.read_csv("data-release/data2/test.csv")
