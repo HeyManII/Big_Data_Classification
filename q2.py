@@ -41,6 +41,7 @@ class KNN:
 
     # predict the class label of the testing data
     def predict(self, X_test, calculated, distances):
+        mem4 = round(get_mem_usage(), 3)
         print(f"Memory usage before predicting label: {mem4} GB")
 
         m = self.X_train.shape[0]
@@ -174,9 +175,9 @@ if __name__ == "__main__":
 
     # find the optimal number of nearest neighbors
     if max(f1_macro) >= max(f1_micro):
-        optimal_k = f1_macro[f1_macro.index(max(f1_macro))]
+        optimal_k = f1_macro.index(max(f1_macro)) + 2
     else:
-        optimal_k = f1_micro[f1_micro.index(max(f1_micro))]
+        optimal_k = f1_micro.index(max(f1_micro)) + 2
 
     mem6 = round(get_mem_usage(), 3)
     print(f"Memory usage before Test data precessing: {mem6} GB")
@@ -193,7 +194,7 @@ if __name__ == "__main__":
     mem8 = round(get_mem_usage(), 3)
     print(f"Memory usage before fitting Test data: {mem8} GB")
     # predict the class label of the testing data with the optimal k
-    model = KNN(optimal_k)
+    model = KNN(int(optimal_k))
     # fit the testing data to the model
     model.fit(X_train, y_train)
     mem9 = round(get_mem_usage(), 3)
