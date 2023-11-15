@@ -7,26 +7,39 @@ from sklearn.metrics import accuracy_score, f1_score
 from scipy.sparse import hstack, coo_matrix
 import numpy as np
 import nltk
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords, words
 import string
 import re
 from nltk.tokenize import word_tokenize
+#import enchant 
 
+nltk.download('words')
+nltk.download('punkt')
+
+#english_dict = enchant.Dict("en_US")
 
 def preprocess_text_csv(df, text_column):
-    nltk.download('punkt')
     stop_words = set(stopwords.words('english'))
     pd.options.mode.chained_assignment = None  
 
     if text_column == "S":
         df[text_column].fillna("isnull",inplace=True) #replace the empty value with string "isnull"
     else:
-        # Remove punctuation
-        df[text_column] = df[text_column].apply(lambda text: text.translate(str.maketrans('', '', string.punctuation)))
+        # Keep a-z & 0-9 data
+        #df[text_column] = df[text_column].apply(lambda text: re.sub(r"[^A-Za-z0-9\s$:?\"!]", "", text))
+        #print("df[text_column] after word_list", df[text_column])
 
         # Convert text to lowercase
         df[text_column] = df[text_column].str.lower()
+        # check if the word is a real word
+        #df[text_column] = df[text_column].apply(lambda text: ' '.join(word for word in word_tokenize(text) if english_dict.check(word) or re.search(r"[$?!:\"]", text)))
+        #print("df[text_column] after word_list", df[text_column])
 
+        # Remove common most fequent words in all classes
+        df[text_column] = df[text_column].apply(lambda text: ' '.join(word for word in word_tokenize(text) if word not in ['obama', 'economy','microsoft','barack','Â','quot']))
+        # Remove punctuation
+        #df[text_column] = df[text_column].apply(lambda text: text.translate(str.maketrans('', '', string.punctuation)))
+        
         # Remove stopwords
         df[text_column] = df[text_column].apply(lambda text: ' '.join(word for word in word_tokenize(text) if word not in stop_words))
 
@@ -44,12 +57,15 @@ if __name__ == "__main__":
 
     text_column = "T1"
     train_data["T1"] = preprocess_text_csv(train_data, text_column)
+    print("finished T1")
 
     text_column = "T2"
     train_data["T2"] = preprocess_text_csv(train_data, text_column)
+    print("finished T2")
 
     text_column = "S"
     train_data["S"] = preprocess_text_csv(train_data, text_column)
+    print("finished S")
 
 
     X = train_data[['T1', 'T2', 'S', 'TO','S1','S2']]  
