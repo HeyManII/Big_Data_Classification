@@ -159,5 +159,5 @@ if __name__ == "__main__":
 
     # testing_result = pd.DataFrame(testing_result.toarray())
 
-    testing_result.astype(int).to_csv('./data-release/q1_prediction.csv', index=False) 
+    #testing_result.astype(int).to_csv('./data-release/q1_prediction.csv', index=False) 
         
