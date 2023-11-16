@@ -1,198 +1,114 @@
-import numpy as np
-import sklearn
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-import matplotlib.pyplot as plt
-from sklearn.svm import SVC
+from sklearn.preprocessing import OneHotEncoder, Normalizer
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.metrics import f1_score
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import tqdm
-import copy
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, f1_score
+from scipy.sparse import hstack, coo_matrix
+import numpy as np
+import nltk
+from nltk.corpus import stopwords
+import string
+import re
+from nltk.tokenize import word_tokenize
 
 
-def cleaning_dirty_data(original_data):
-    cleaned_data = original_data.dropna(axis=0, inplace=False)
-    return cleaned_data
+def preprocess_text_csv(df, text_column):
+    nltk.download("punkt")
+    stop_words = set(stopwords.words("english"))
+    pd.options.mode.chained_assignment = None
 
-
-def normalize_data(original_data):
-    # perform a max--min normalization to colume 1 to 19
-    original_data.iloc[:, 5:6] = (
-        original_data.iloc[:, 5:6] - original_data.iloc[:, 5:6].min()
-    ) / (original_data.iloc[:, 5:6].max() - original_data.iloc[:, 5:6].min())
-    return original_data
-
-
-def tf_idf_calculation(data):
-    tfidf1 = TfidfVectorizer()
-    t1_tfidf = tfidf1.fit_transform(data.iloc[:, 1])
-    t1_tfidf_df = pd.DataFrame(
-        t1_tfidf.toarray(), columns=tfidf1.get_feature_names_out()
-    )
-    tfidf2 = TfidfVectorizer()
-    t2_tfidf = tfidf2.fit_transform(data.iloc[:, 2])
-    t2_tfidf_df = pd.DataFrame(
-        t2_tfidf.toarray(), columns=tfidf2.get_feature_names_out()
-    )
-    return t1_tfidf_df, t2_tfidf_df
-
-
-# nerual network [18 input] [36 hidden] [5 output]
-class Neural_Network_Classification(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.flatten = nn.Flatten()
-        self.linear_relu_stack = nn.Sequential(
-            nn.Linear(49169, 49169),
-            nn.ReLU(),
-            nn.Linear(49169, 49169),
-            nn.ReLU(),
-            nn.Linear(49169, 5),
+    if text_column == "S":
+        df[text_column].fillna(
+            "isnull", inplace=True
+        )  # replace the empty value with string "isnull"
+    else:
+        # Remove punctuation
+        df[text_column] = df[text_column].apply(
+            lambda text: text.translate(str.maketrans("", "", string.punctuation))
         )
 
-    def forward(self, x):
-        x = self.flatten(x)
-        x = self.linear_relu_stack(x)
-        return x
+        # Convert text to lowercase
+        df[text_column] = df[text_column].str.lower()
+
+        # Remove stopwords
+        df[text_column] = df[text_column].apply(
+            lambda text: " ".join(
+                word for word in word_tokenize(text) if word not in stop_words
+            )
+        )
+
+    print("df", df[text_column])
+    return df[text_column]
 
 
+# Testing
 if __name__ == "__main__":
-    # check if GPU is available
-    device = (
-        "cuda"
-        if torch.cuda.is_available()
-        else "mps"
-        if torch.backends.mps.is_available()
-        else "cpu"
+    data = pd.read_csv("./data-release/data1/training.csv")
+    pd.options.mode.chained_assignment = None
+
+    train_data = data.dropna()  # Drop rows with missing values
+    train_data.drop_duplicates(
+        inplace=True
+    )  # remove the duplicates rows of the dataset
+
+    text_column = "T1"
+    train_data["T1"] = preprocess_text_csv(train_data, text_column)
+
+    text_column = "T2"
+    train_data["T2"] = preprocess_text_csv(train_data, text_column)
+
+    text_column = "S"
+    train_data["S"] = preprocess_text_csv(train_data, text_column)
+
+    X = train_data[["T1", "T2", "S", "TO", "S1", "S2"]]
+    y = train_data["class label"]
+
+    X_train, X_validation, y_train, y_validation = train_test_split(
+        X, y, test_size=0.2, random_state=42
     )
-    print(f"Using device: {device}")
 
-    # reading the training data
-    training_data = pd.read_csv("data-release/data1/training.csv")
+    # transform the T1 and T2 data into Tfidf format with remove the stopword, punctuation
+    vectorizer = TfidfVectorizer()
+    X_train_tfidf_t1 = vectorizer.fit_transform(
+        X_train["T1"]
+    )  # Transform the T1 text column
+    X_test_tfidf_t1 = vectorizer.transform(X_validation["T1"])
 
-    # cleaning empty cell inside the training_data
-    cleaned_training_data = cleaning_dirty_data(training_data)
-    cleaned_training_data = normalize_data(cleaned_training_data)
-    Y = cleaned_training_data.iloc[:, 7]
-    Y = np.array(Y)
+    X_train_tfidf_t2 = vectorizer.fit_transform(
+        X_train["T2"]
+    )  # Transform the T2 text column
+    X_test_tfidf_t2 = vectorizer.transform(X_validation["T2"])
 
-    t1_tfidf, t2_tfidf = tf_idf_calculation(cleaned_training_data)
-    cleaned_training_data = cleaned_training_data.iloc[:4].replace("obama", int(0))
-    cleaned_training_data = cleaned_training_data[:4].replace("microsoft", int(1))
-    cleaned_training_data = cleaned_training_data[:4].replace("economy", int(2))
-    cleaned_training_data = cleaned_training_data[:4].replace("palestine", int(3))
+    # transform the category columns into numerical data using one hot encoder
+    cat_features = ["S", "TO"]
+    encoder = OneHotEncoder(handle_unknown="ignore")
+    X_train_cat = encoder.fit_transform(X_train[cat_features])
+    X_test_cat = encoder.transform(X_validation[cat_features])
 
-    # split training data into X and y
-    # Train SVM model for obama
-    X = pd.concat([t1_tfidf, t2_tfidf, cleaned_training_data.iloc[:, 4:6]], axis=1)
-    # split data into training and validation sets
-    X_train, X_valid, Y_train, Y_valid = train_test_split(
-        X, Y, test_size=0.2, random_state=42
+    # concatenate sparse matrices with the same number of rows (horizontal concatenation)
+    num_features = ["S1", "S2"]
+    X_train_combined = hstack(
+        [X_train_tfidf_t1, X_train_tfidf_t2, X_train_cat, X_train[num_features]]
     )
-    # convert pandas DataFrame (X) and numpy array (y) into PyTorch tensors
-    X_train = X_train.astype(float)
-    X_valid = X_valid.astype(float)
-    X_train = torch.tensor(X_train.values, dtype=torch.float)
-    X_valid = torch.tensor(X_valid.values, dtype=torch.float)
-    Y_train = torch.tensor(Y_train, dtype=torch.float)
-    Y_valid = torch.tensor(Y_valid, dtype=torch.float)
 
-    # nerual network
-    model = Neural_Network_Classification()
-    loss_fn = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    X_test_combined = hstack(
+        [X_test_tfidf_t1, X_test_tfidf_t2, X_test_cat, X_validation[num_features]]
+    )
 
-    # training parameters
-    n_epochs = 1000
-    batch_size = 49169
-    batches_per_epoch = len(X_train) // batch_size
+    # need to be implemented if the normliazer doesn't support sparse matrix
+    # regular_array_train = coo_matrix((X_train_combined.data,(X_train_combined.row,X_train_combined.col)),shape=(max(X_train_combined.row)+1,max(X_train_combined.col)+1)).toarray()
+    # regular_array_test = coo_matrix((X_test_combined.data,(X_test_combined.row,X_test_combined.col)),shape=(max(X_test_combined.row)+1,max(X_test_combined.col)+1)).toarray()
 
-    best_acc = -np.inf
-    best_weights = None
-    train_loss_hist = []
-    train_acc_hist = []
-    test_loss_hist = []
-    test_acc_hist = []
+    # Normalize the dataset before machine learning
+    X_train = Normalizer().fit_transform(X_train_combined)
+    X_test = Normalizer().transform(X_test_combined)
 
-    # training loop
-    for epoch in range(n_epochs):
-        epoch_loss = []
-        epoch_acc = []
-        # set model in training mode and run through each batch
-        model.train()
-        with tqdm.trange(batches_per_epoch, unit="batch", mininterval=0) as bar:
-            bar.set_description(f"Epoch {epoch}")
-            for i in bar:
-                # take a batch
-                start = i * batch_size
-                X_batch = X_train[start : start + batch_size]
-                y_batch = Y_train[start : start + batch_size]
-                # forward pass
-                y_pred = model(X_batch)
-                loss = loss_fn(y_pred, y_batch)
-                # backward pass
-                optimizer.zero_grad()
-                loss.backward()
-                # update weights
-                optimizer.step()
-                # compute and store metrics
-                acc = (
-                    (torch.argmax(y_pred, 1) == torch.argmax(y_batch, 1)).float().mean()
-                )
-                epoch_loss.append(float(loss))
-                epoch_acc.append(float(acc))
-                bar.set_postfix(loss=float(loss), acc=float(acc))
+    # Mechine learning
+    SVC_classifier = SVC().fit(X_train, y_train)
+    SVC_classifier_prediction = SVC_classifier.predict(X_test)
 
-        # set model in evaluation mode and run through the test set
-        model.eval()
-        y_pred = model(X_valid)
-        ce = loss_fn(y_pred, Y_valid)
-        acc = (torch.argmax(y_pred, 1) == torch.argmax(Y_valid, 1)).float().mean()
-        ce = float(ce)
-        acc = float(acc)
-        train_loss_hist.append(np.mean(epoch_loss))
-        train_acc_hist.append(np.mean(epoch_acc))
-        test_loss_hist.append(ce)
-        test_acc_hist.append(acc)
-        if acc > best_acc:
-            best_acc = acc
-            best_weights = copy.deepcopy(model.state_dict())
-        print(
-            f"Epoch {epoch} validation: Cross-entropy={ce:.2f}, Accuracy={acc*100:.1f}%"
-        )
-
-    # Restore best model
-    model.load_state_dict(best_weights)
-
-    # set model in evaluation mode and run through the validation set
-    model.eval()
-    y_pred = model(X_valid)
-    y_pred = torch.argmax(y_pred, 1)
-    y_pred = y_pred + 1
-    # convert y_validate to numpy array
-    # Y_validate = ohe.inverse_transform(Y_valid)
-    # calculate F1 score
-    f1_macro = f1_score(Y_valid, y_pred, average="macro")
-    f1_micro = f1_score(Y_valid, y_pred, average="micro")
-    print(f"Macro F1 score: {f1_macro:.4f}")
-    print(f"Micro F1 score: {f1_micro:.4f}")
-
-    # Plot the loss and accuracy
-    plt.plot(train_loss_hist, label="train")
-    plt.plot(test_loss_hist, label="test")
-    plt.xlabel("epochs")
-    plt.ylabel("cross entropy")
-    plt.legend()
-    plt.show()
-
-    plt.plot(train_acc_hist, label="train")
-    plt.plot(test_acc_hist, label="test")
-    plt.xlabel("epochs")
-    plt.ylabel("accuracy")
-    plt.legend()
-    plt.show()
+    # print the score data
+    print(accuracy_score(y_validation, SVC_classifier_prediction))
+    print(f1_score(y_validation, SVC_classifier_prediction, average="micro"))
+    print(f1_score(y_validation, SVC_classifier_prediction, average="macro"))
