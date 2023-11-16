@@ -4,7 +4,7 @@ from sklearn.preprocessing import OneHotEncoder, Normalizer
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, f1_score
-from scipy.sparse import hstack, coo_matrix
+from scipy.sparse import hstack, coo_matrix, csr_matrix
 import numpy as np
 import nltk
 from nltk.corpus import stopwords, words
@@ -39,12 +39,41 @@ def preprocess_text_csv(df, text_column):
         df[text_column] = df[text_column].apply(lambda text: ' '.join(word for word in word_tokenize(text) if word not in ['obama', 'economy','microsoft','barack','Â','quot']))
         # Remove punctuation
         #df[text_column] = df[text_column].apply(lambda text: text.translate(str.maketrans('', '', string.punctuation)))
-        
+
         # Remove stopwords
         df[text_column] = df[text_column].apply(lambda text: ' '.join(word for word in word_tokenize(text) if word not in stop_words))
 
     print("df",df[text_column])
     return df[text_column]
+
+def normalize_sparse_matrix(sparse_matrix):
+    normalized_sparse_matrix = csr_matrix(sparse_matrix.shape)
+
+    for i in range(sparse_matrix.shape[0]):
+        row_start = sparse_matrix.indptr[i] 
+        row_end = sparse_matrix.indptr[i + 1]
+        row_data = sparse_matrix.data[sparse_matrix.indptr[i]:sparse_matrix.indptr[i+1]].copy()
+        row_indices = sparse_matrix.indices[row_start:row_end]
+        squared_sum = sum(row_data ** 2)
+        norm = squared_sum ** 0.5 if squared_sum != 0 else 1
+        
+        row_data = row_data / norm
+        if((row_end - row_start) == sparse_matrix.shape[1]):
+          row_data = csr_matrix(row_data)
+        else:
+          value_index = 0
+          tmp_row_data = np.zeros(sparse_matrix.shape[1])
+          for j in (row_indices):
+            tmp_row_data[j] = row_data[value_index]
+            value_index = value_index + 1
+        
+          row_data = csr_matrix(tmp_row_data)
+
+        normalized_sparse_matrix[i] = row_data
+    
+    normalized_sparse_matrix.indices = sparse_matrix.indices
+    normalized_sparse_matrix.indptr = sparse_matrix.indptr
+    return normalized_sparse_matrix
 
 
 # Testing
@@ -68,7 +97,7 @@ if __name__ == "__main__":
     print("finished S")
 
 
-    X = train_data[['T1', 'T2', 'S', 'TO','S1','S2']]  
+    X = train_data[['id','T1', 'T2', 'S', 'TO','S1','S2']]  
     y = train_data['class label'] 
 
     X_train, X_validation, y_train, y_validation = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -110,8 +139,8 @@ if __name__ == "__main__":
 
 
     #Normalize the dataset before machine learning
-    X_train = Normalizer().fit_transform(X_train_combined)
-    X_test = Normalizer().transform(X_test_combined)
+    X_train = normalize_sparse_matrix(csr_matrix(X_train_combined))
+    X_test = normalize_sparse_matrix(csr_matrix(X_test_combined))
 
     
     # Mechine learning 
@@ -122,4 +151,13 @@ if __name__ == "__main__":
     print(accuracy_score(y_validation, SVC_classifier_prediction))
     print(f1_score(y_validation, SVC_classifier_prediction, average='micro'))
     print(f1_score(y_validation, SVC_classifier_prediction, average='macro'))
-    
+
+    #train the result
+    # testing_result = hstack([
+    # coo_matrix(np.array(X_validation['id']).reshape(X_validation['id'].shape[0],1)),
+    # coo_matrix(SVC_classifier_prediction.reshape(SVC_classifier_prediction.shape[0],1))])
+
+    # testing_result = pd.DataFrame(testing_result.toarray())
+
+    testing_result.astype(int).to_csv('./data-release/q1_prediction.csv', index=False) 
+        
