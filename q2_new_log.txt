@@ -1,0 +1,127 @@
+Memory used on building Ball Tree: 4.12 MiB
+Time on building Ball Tree: 0.00324 seconds
+
+Predicting Validation dataset with 2 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:29<00:00, 200.24row(s)/s]
+Memory used: 0.916 MiB
+Time on looking for 2 nearest neighbors: 155.89 seconds
+Predicting Validation dataset with 3 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:27<00:00, 202.76row(s)/s]
+Memory used: 1.3737 MiB
+Time on looking for 3 nearest neighbors: 153.95 seconds
+Predicting Validation dataset with 4 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:27<00:00, 203.42row(s)/s]
+Memory used: 1.8315 MiB
+Time on looking for 4 nearest neighbors: 153.57 seconds
+Predicting Validation dataset with 5 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:28<00:00, 202.59row(s)/s]
+Memory used: 2.2893 MiB
+Time on looking for 5 nearest neighbors: 154.09 seconds
+Predicting Validation dataset with 6 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:27<00:00, 203.20row(s)/s]
+Memory used: 2.747 MiB
+Time on looking for 6 nearest neighbors: 153.74 seconds
+Predicting Validation dataset with 7 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:29<00:00, 201.18row(s)/s]
+Memory used: 3.2048 MiB
+Time on looking for 7 nearest neighbors: 155.16 seconds
+Predicting Validation dataset with 8 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:31<00:00, 197.76row(s)/s]
+Memory used: 3.6626 MiB
+Time on looking for 8 nearest neighbors: 157.81 seconds
+Predicting Validation dataset with 9 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:33<00:00, 195.11row(s)/s]
+Memory used: 4.1203 MiB
+Time on looking for 9 nearest neighbors: 160.12 seconds
+Predicting Validation dataset with 10 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:28<00:00, 201.77row(s)/s]
+Memory used: 4.5781 MiB
+Time on looking for 10 nearest neighbors: 154.86 seconds
+Predicting Validation dataset with 11 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:30<00:00, 198.90row(s)/s]
+Memory used: 5.0359 MiB
+Time on looking for 11 nearest neighbors: 156.91 seconds
+Predicting Validation dataset with 12 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:30<00:00, 198.72row(s)/s]
+Memory used: 5.4936 MiB
+Time on looking for 12 nearest neighbors: 157.06 seconds
+Predicting Validation dataset with 13 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:28<00:00, 201.63row(s)/s]
+Memory used: 5.9514 MiB
+Time on looking for 13 nearest neighbors: 154.89 seconds
+Predicting Validation dataset with 14 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:30<00:00, 199.75row(s)/s]
+Memory used: 6.4091 MiB
+Time on looking for 14 nearest neighbors: 156.36 seconds
+Predicting Validation dataset with 15 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:31<00:00, 198.27row(s)/s]
+Memory used: 6.8669 MiB
+Time on looking for 15 nearest neighbors: 157.51 seconds
+Predicting Validation dataset with 16 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:31<00:00, 198.23row(s)/s]
+Memory used: 7.3247 MiB
+Time on looking for 16 nearest neighbors: 157.48 seconds
+Predicting Validation dataset with 17 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:32<00:00, 196.62row(s)/s]
+Memory used: 7.7824 MiB
+Time on looking for 17 nearest neighbors: 158.79 seconds
+Predicting Validation dataset with 18 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:31<00:00, 198.12row(s)/s]
+Memory used: 8.2402 MiB
+Time on looking for 18 nearest neighbors: 157.64 seconds
+Predicting Validation dataset with 19 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:33<00:00, 196.02row(s)/s]
+Memory used: 8.698 MiB
+Time on looking for 19 nearest neighbors: 159.22 seconds
+Predicting Validation dataset with 20 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:33<00:00, 195.58row(s)/s]
+Memory used: 9.1557 MiB
+Time on looking for 20 nearest neighbors: 159.63 seconds
+Predicting Validation dataset with 21 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:31<00:00, 197.94row(s)/s]
+Memory used: 9.6135 MiB
+Time on looking for 21 nearest neighbors: 157.84 seconds
+Predicting Validation dataset with 22 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:33<00:00, 195.56row(s)/s]
+Memory used: 10.0713 MiB
+Time on looking for 22 nearest neighbors: 159.65 seconds
+Predicting Validation dataset with 23 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:33<00:00, 195.77row(s)/s]
+Memory used: 10.529 MiB
+Time on looking for 23 nearest neighbors: 159.45 seconds
+Predicting Validation dataset with 24 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:33<00:00, 195.86row(s)/s]
+Memory used: 10.9868 MiB
+Time on looking for 24 nearest neighbors: 159.39 seconds
+Predicting Validation dataset with 25 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:35<00:00, 193.55row(s)/s]
+Memory used: 11.4445 MiB
+Time on looking for 25 nearest neighbors: 161.23 seconds
+Predicting Validation dataset with 26 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:33<00:00, 195.02row(s)/s]
+Memory used: 11.9023 MiB
+Time on looking for 26 nearest neighbors: 160.07 seconds
+Predicting Validation dataset with 27 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:35<00:00, 192.69row(s)/s]
+Memory used: 12.3601 MiB
+Time on looking for 27 nearest neighbors: 162.01 seconds
+Predicting Validation dataset with 28 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:35<00:00, 192.85row(s)/s]
+Memory used: 12.8178 MiB
+Time on looking for 28 nearest neighbors: 161.86 seconds
+Predicting Validation dataset with 29 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:36<00:00, 192.25row(s)/s]
+Memory used: 13.2756 MiB
+Time on looking for 29 nearest neighbors: 162.32 seconds
+Predicting Validation dataset with 30 nearest neighbors
+Training Progress: : 100%|████████████████| 30000/30000 [02:36<00:00, 191.43row(s)/s]
+Memory used: 13.7334 MiB
+Time on looking for 30 nearest neighbors: 163.08 seconds
+Maximum Macro F1 score is 0.9399498477871546 when k = 3
+Maximum Micro F1 score is 0.9410666666666667 when k = 3
+Therefore, 3 is the optimal value of k
+
+Predicting Testing dataset with 3 nearest neighbors
+Predicting Progress: : 100%|██████████████| 10000/10000 [01:07<00:00, 147.12row(s)/s]
+Memory used: 0.4582 MiB
+Time on predicting testing data: 70.12 seconds

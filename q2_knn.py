@@ -35,7 +35,7 @@ def plot_distribution(data):
         plt.scatter(data.iloc[:, i], data.iloc[:, 0], s=5)
         plt.xlabel(f"Feature Value {i} Value")
         plt.ylabel("Record ID")
-        plt.title(f"Scatter Plot of Features {i} Distribution")
+        plt.title(f"Scatter Plot of Attribute {i} Distribution")
         plt.show()
 
 
@@ -102,15 +102,13 @@ if __name__ == "__main__":
     # reading the training data
     training_data = pd.read_csv("data-release/data2/training.csv")
     # show the data distribution of the asstributes in training data
-    # plot_distribution(training_data.iloc[:, 0:19])
+    plot_distribution(training_data.iloc[:, 0:19])
     # remove rows with empty cells
     training_data = training_data.dropna(axis=0, inplace=False)
     # cleaning the training_data
     cleaned_training_data = data_cleaning(training_data)
-    # shuffle the rows of training data
-    cleaned_training_data = cleaned_training_data.sample(frac=1).reset_index(drop=True)
     # plot the distribution of the attributes in training data after data processing
-    # plot_distribution(cleaned_training_data)
+    plot_distribution(cleaned_training_data)
     # split to training data and training label
     X_train = np.array(cleaned_training_data.iloc[:, 1:19])
     y_train = np.array(cleaned_training_data.iloc[:, 19])
