@@ -1,15 +1,14 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.preprocessing import OneHotEncoder, Normalizer
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, f1_score
-from scipy.sparse import hstack, coo_matrix, csr_matrix
+from scipy.sparse import hstack, csr_matrix
 import numpy as np
 import nltk
 from nltk.corpus import stopwords
 import string
-import re
 from nltk.tokenize import word_tokenize
 import tracemalloc
 import time
@@ -36,6 +35,7 @@ def preprocess_text_csv(df, text_column):
 
     return df[text_column]
 
+# apply the L2 normalization
 def normalize_sparse_matrix(sparse_matrix):
     normalized_sparse_matrix = csr_matrix(sparse_matrix.shape)
 
@@ -180,7 +180,7 @@ if __name__ == "__main__":
         print(f"SVM with kernel function {i} F1-score (marco)",f1_score(y_validation, SVC_prediction, average='macro'))
     
 
-    # since kernel rbf obtained the highest f1 score, hence it would choose its prediction to export the result
+    # since kernel Polynomial obtained the highest f1 score, hence it would choose its prediction to export the result
     SVC_classifier = SVC(kernel='poly').fit(X_train,y_train)
     tracemalloc.start(20)
     time1 = time.perf_counter()
