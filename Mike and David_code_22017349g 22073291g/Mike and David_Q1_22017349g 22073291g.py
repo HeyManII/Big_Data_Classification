@@ -188,6 +188,6 @@ if __name__ == "__main__":
     time2 = time.perf_counter()
     print(f"Time on testing data by SVM with kernel function poly : {round(time2 - time1, 5)} seconds")
     testing_data_export = pd.read_csv("./data-release/data1/test.csv")
-    testing_data_export = testing_data_export.astype({"class label": "object"})
     testing_data_export.iloc[:, 7:] = SVC_prediction
+    testing_data_export = testing_data_export.astype({"class label": int})
     testing_data_export.to_csv("./data-release/data1/test_predict.csv", index=False)
